@@ -8,7 +8,7 @@ public class MergeSort {
 		
 		showArray(array1);
 //		array1 = split(array1, 0, array1.length - 1);
-		mergeSort(array1);
+		array1 = mergeSort(array1);
 		showArray(array1);
 		
 	}
@@ -28,7 +28,7 @@ public class MergeSort {
 	
 
 	
-	private static void mergeSort(int[] theArray, int left, int right) {
+	private static int[] mergeSort(int[] theArray, int left, int right) {
 		//**************************************************************
 		//*  Recursive Merge Sort                                      *
 		//*------------------------------------------------------------*
@@ -38,43 +38,49 @@ public class MergeSort {
 		//*  4. Replace the original array section with the merged     *
 		//*     array.                                                 *
 		//**************************************************************
-		if(right > left) {
-			int length = right + 1;
-			int mid = (length - left ) / 2;
+		if(left != right) {
+			int mid = (left + right) / 2;
 			int nextMid = mid + 1;
-			mergeSort(theArray, left, mid);
-			mergeSort(theArray, nextMid, right);
+			
+			int[] leftHalf = mergeSort(theArray, left, mid);
+			int[] rightHalf = mergeSort(theArray, nextMid, right);
 
-			int biggestHalf;
-			if(mid - left < length - nextMid){
-				biggestHalf = length - nextMid;
-			}else{
-				biggestHalf = mid - left;
-			}
-			int[] leftHalf = split(theArray, left, nextMid);
-			int[] rightHalf = split(theArray, nextMid, length);
-
-			int[] mergedArray = new int[length - left];
-			for(int i = 0; i < biggestHalf; i++){
-
-
-
-			}
-
+			return merge(leftHalf, rightHalf);
+		}else {
+			return split(theArray, left, left);
 		}
 	}
 	
-	public static void mergeSort(int[] array) {
+	public static int[] mergeSort(int[] array) {
 		//**********************************************
 		//*  Class Wrapper for the recursive mergeSort *
 		//**********************************************
-		mergeSort(array,0,array.length-1);
+		return mergeSort(array,0,array.length-1);
+	}
+	
+	public static int[] merge(int[] leftSide, int[] rightSide) {
+		int[] newList = new int[leftSide.length + rightSide.length];
+		int l = 0, r = 0, count = 0;
+		
+		while(l < leftSide.length || r < rightSide.length) {
+			if(l == leftSide.length) {
+				newList[count++] = rightSide[r++];
+			}else if( r == rightSide.length) {
+				newList[count++] = leftSide[l++];
+			}else if(leftSide[l] < rightSide[r]) {
+				newList[count++] = leftSide[l++];
+			}else {
+				newList[count++] = rightSide[r++];
+			}
+		}
+		return newList;
+		
 	}
 	
 	public static int[] split(int[] array, int left, int right) {
-		int[] newArray = new int[right - left];
+		int[] newArray = new int[right - left + 1];
 		int count = 0;
-		for(int i = left; i < right; i++) {
+		for(int i = left; i <= right; i++) {
 			newArray[count] = array[i];
 			count++;
 		}
