@@ -38,11 +38,29 @@ public class MergeSort {
 		//*  4. Replace the original array section with the merged     *
 		//*     array.                                                 *
 		//**************************************************************
-		if(right >= left) {
-			int mid = (right - left ) / 2;
+		if(right > left) {
+			int length = right + 1;
+			int mid = (length - left ) / 2;
 			int nextMid = mid + 1;
 			mergeSort(theArray, left, mid);
 			mergeSort(theArray, nextMid, right);
+
+			int biggestHalf;
+			if(mid - left < length - nextMid){
+				biggestHalf = length - nextMid;
+			}else{
+				biggestHalf = mid - left;
+			}
+			int[] leftHalf = split(theArray, left, nextMid);
+			int[] rightHalf = split(theArray, nextMid, length);
+
+			int[] mergedArray = new int[length - left];
+			for(int i = 0; i < biggestHalf; i++){
+
+
+
+			}
+
 		}
 	}
 	
